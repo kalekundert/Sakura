@@ -1,0 +1,187 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: sakura\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-23 10:08+0200\n"
+"PO-Revision-Date: 2011-06-11 23:11+0000\n"
+"Last-Translator: Anton Lashkov <Unknown>\n"
+"Language-Team: Evgenij Vdovin <evdovin@pochta.ru>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-06-13 04:31+0000\n"
+"X-Generator: Launchpad (build 13168)\n"
+
+msgid "Print version number"
+msgstr "Вывести номер версии"
+
+msgid "Select initial terminal font"
+msgstr "Выбрать шрифт"
+
+msgid "Select initial number of tabs"
+msgstr "Начальное число вкладок"
+
+msgid "Execute command"
+msgstr "Выполнить команду"
+
+msgid "Execute command (xterm compatible)"
+msgstr "Выполнить команду (совместимо с xterm)"
+
+msgid "Login shell"
+msgstr "Логин shell"
+
+msgid "Set window title"
+msgstr "Изменение заголовка окна"
+
+msgid "Set columns number"
+msgstr "Установить число столбцов"
+
+msgid "Set rows number"
+msgstr "Установить число строк"
+
+msgid "Hold window after execute command"
+msgstr "Удерживать окно после выполнения команды"
+
+msgid "X geometry specification"
+msgstr "Определение геометрии окна X"
+
+msgid "Configuration has been modified by another proccess. Overwrite?"
+msgstr "Настройки могут быть изменены в другом процессе. Перезаписать?"
+
+msgid ""
+"There are running processes.\n"
+"\n"
+"Do you really want to close Sakura?"
+msgstr ""
+"Не все процессы завершены.\n"
+"\n"
+"Вы уверены, что хотите выйти из программы?"
+
+msgid "Select font"
+msgstr "Выбор шрифта"
+
+msgid "Set name"
+msgstr "Изменение заголовка вкладки"
+
+msgid "Tab new text"
+msgstr "Новоый заголовок:"
+
+msgid "Select color"
+msgstr "Выбор цвета"
+
+msgid "Select foreground color:"
+msgstr "Цвет текста:"
+
+msgid "Select background color:"
+msgstr "Цвет фона:"
+
+msgid "Opacity"
+msgstr "Прозрачность"
+
+msgid "Opacity level (%):"
+msgstr "Уровень прозрачности (%):"
+
+msgid "Disable opacity"
+msgstr "Отключить прозрачность"
+
+msgid "New window title"
+msgstr "Новый заголовок:"
+
+msgid "Select a background file"
+msgstr "Выбор файла с фоновым рисунком"
+
+msgid ""
+"There is a running process in this terminal.\n"
+"\n"
+"Do you really want to close it?"
+msgstr ""
+"Не все процессы завершены.\n"
+"\n"
+"Вы уверены, что хотите выйти из программы?"
+
+msgid "Open link..."
+msgstr "Открыть ссылку..."
+
+msgid "Copy link..."
+msgstr "Копировать ссылку..."
+
+msgid "New tab"
+msgstr "Новая вкладка"
+
+msgid "New window"
+msgstr "Новое окно"
+
+msgid "Set name..."
+msgstr "Заголовок вкладки..."
+
+msgid "Close tab"
+msgstr "Закрыть вкладку"
+
+msgid "Full screen"
+msgstr "На полный экран"
+
+msgid "Copy"
+msgstr "Копировать"
+
+msgid "Paste"
+msgstr "Вставить"
+
+msgid "Select font..."
+msgstr "Шрифт..."
+
+msgid "Select colors..."
+msgstr "Цвета..."
+
+msgid "Select background..."
+msgstr "Фоновый рисунок..."
+
+msgid "Clear background"
+msgstr "Убрать фоновый рисунок"
+
+msgid "Set opacity level..."
+msgstr "Уровень прозрачности..."
+
+msgid "Set window title..."
+msgstr "Заголовок окна..."
+
+msgid "Always show tab bar"
+msgstr "Всегда показывать панель вкладок"
+
+msgid "Show tab close button"
+msgstr "Показывать кнопку закрытия вкладки"
+
+msgid "Show scrollbar"
+msgstr "Показать линейку прокрутки"
+
+msgid "Set audible bell"
+msgstr "Звуковое оповещение"
+
+msgid "Set visible bell"
+msgstr "Визуальное оповещение"
+
+msgid "Set blinking cursor"
+msgstr "Мигающий курсор"
+
+msgid "Borderless and maximized"
+msgstr "На весь экран без рамки."
+
+msgid "Input methods"
+msgstr "Методы ввода"
+
+msgid "Options"
+msgstr "Настройки"
+
+msgid "Set palette"
+msgstr "Палитра"
+
+#, c-format
+msgid "Terminal %d"
+msgstr "Терминал %d"
+
+msgid "- vte-based terminal emulator"
+msgstr "- эмулятор терминала, основанный на VTE"
+
+#, c-format
+msgid "sakura version is %s\n"
+msgstr "Версия Сакуры %s\n"
