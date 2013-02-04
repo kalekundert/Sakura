@@ -55,6 +55,13 @@
 
 #define PALETTE_SIZE 16
 
+/*
+ * Set this to false to avoid the obnoxious dialog box that pops up if you try
+ * to kill a Sakura session when processes are running.
+ *    -Kale Kundert
+ */
+#define WARN_ABOUT_RUNNING_PROCESSES 1
+
 /* Color palettes. Color lists borrowed from gnome-terminal source (thanks! ;)) */
 const GdkColor tango_palette[PALETTE_SIZE] =
 {
@@ -74,6 +81,46 @@ const GdkColor tango_palette[PALETTE_SIZE] =
 	{ 0, 0xadad, 0x7f7f, 0xa8a8 },
 	{ 0, 0x3434, 0xe2e2, 0xe2e2 },
 	{ 0, 0xeeee, 0xeeee, 0xecec }
+};
+
+const GdkColor solarized_palette[PALETTE_SIZE] =
+{
+    { 0, 0x0707, 0x3636, 0x4242 }, // 0  base02
+    { 0, 0xdcdc, 0x3232, 0x2f2f }, // 1  red
+    { 0, 0x8585, 0x9999, 0x0000 }, // 2  green
+    { 0, 0xb5b5, 0x8989, 0x0000 }, // 3  yellow
+    { 0, 0x2626, 0x8b8b, 0xd2d2 }, // 4  blue
+    { 0, 0xd3d3, 0x3636, 0x8282 }, // 5  magenta
+    { 0, 0x2a2a, 0xa1a1, 0x9898 }, // 6  cyan
+    { 0, 0xeeee, 0xe8e8, 0xd5d5 }, // 7  base2
+    { 0, 0x0000, 0x2b2b, 0x3636 }, // 8  base03
+    { 0, 0xcbcb, 0x4b4B, 0x1616 }, // 9  orange
+    { 0, 0x5858, 0x6e6e, 0x7575 }, // 10 base01
+    { 0, 0x6565, 0x7b7b, 0x8383 }, // 11 base00
+    { 0, 0x8383, 0x9494, 0x9696 }, // 12 base0
+    { 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 violet
+    { 0, 0x9393, 0xa1a1, 0xa1a1 }, // 14 base1
+    { 0, 0xfdfd, 0xf6f6, 0xe3e3 }  // 15 base3
+};
+
+const GdkColor inverse_solarized_palette[PALETTE_SIZE] =
+{
+    { 0, 0x0000, 0x2b2b, 0x3636 }, // 8  base03
+    { 0, 0xcbcb, 0x4b4B, 0x1616 }, // 9  orange
+    { 0, 0x5858, 0x6e6e, 0x7575 }, // 10 base01
+    { 0, 0x6565, 0x7b7b, 0x8383 }, // 11 base00
+    { 0, 0x8383, 0x9494, 0x9696 }, // 12 base0
+    { 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 violet
+    { 0, 0x9393, 0xa1a1, 0xa1a1 }, // 14 base1
+    { 0, 0xfdfd, 0xf6f6, 0xe3e3 }, // 15 base3
+    { 0, 0x0707, 0x3636, 0x4242 }, // 0  base02
+    { 0, 0xdcdc, 0x3232, 0x2f2f }, // 1  red
+    { 0, 0x8585, 0x9999, 0x0000 }, // 2  green
+    { 0, 0xb5b5, 0x8989, 0x0000 }, // 3  yellow
+    { 0, 0x2626, 0x8b8b, 0xd2d2 }, // 4  blue
+    { 0, 0xd3d3, 0x3636, 0x8282 }, // 5  magenta
+    { 0, 0x2a2a, 0xa1a1, 0x9898 }, // 6  cyan
+    { 0, 0xeeee, 0xe8e8, 0xd5d5 }  // 7  base2
 };
 
 const GdkColor linux_palette[PALETTE_SIZE] =
@@ -218,7 +265,7 @@ struct terminal {
 #define DEFAULT_ROWS 24
 #define DEFAULT_FONT "monospace 11"
 #define DEFAULT_WORD_CHARS  "-A-Za-z0-9,./?%&#_~"
-#define DEFAULT_PALETTE "linux"
+#define DEFAULT_PALETTE "solarized"
 #define DEFAULT_ADD_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
@@ -605,7 +652,13 @@ sakura_title_changed (GtkWidget *widget, void *data)
 	page = gtk_notebook_get_current_page(GTK_NOTEBOOK(sakura.notebook));
 	term = sakura_get_page_term(sakura, page);
 	title = vte_terminal_get_window_title(VTE_TERMINAL(term->vte));
-	window_title = g_strconcat(title, " - sakura", NULL);
+
+        // I don't want the string " - sakura" appended onto the title, so I
+        // truncated this call to g_strconcat.
+        //
+        // -Kale Kundert
+
+	window_title = g_strconcat(title, "", NULL);
 
 	if ( (title!=NULL) && (g_strcmp0(title, "") !=0) ) {
 		chopped_title = g_strndup(title, 40); /* Should it be configurable? */
@@ -690,6 +743,12 @@ sakura_delete_event (GtkWidget *widget, void *data)
 	npages = gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook));
 
 	/* Check for each tab if there are running processes. Use tcgetpgrp to compare to the shell PGID */
+
+        /* Actually, don't check for running processes.  I think the dialog box
+         * is annoying.
+         *     -Kale Kundert     */
+
+#       if WARN_ABOUT_RUNNING_PROCESSES 
 	for (i=0; i < npages; i++) {
 
 		term = sakura_get_page_term(sakura, i);
@@ -711,6 +770,7 @@ sakura_delete_event (GtkWidget *widget, void *data)
 			}
 		} 
 	}
+#       endif
 
 	sakura_config_done();
 	return FALSE;
@@ -865,7 +925,14 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 				vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &sakura.forecolor);
 				vte_terminal_set_opacity(VTE_TERMINAL (term->vte), sakura.backalpha);
 			}
-			vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+			/*
+			 * Set the foreground and background color to NULL so
+			 * that they are picked up from the color palette
+			 *     -Kale Kundert
+			 */
+			//vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+			//                        sakura.palette, PALETTE_SIZE);
+			vte_terminal_set_colors(VTE_TERMINAL(term->vte), NULL, NULL,
 			                        sakura.palette, PALETTE_SIZE);
 		}
 
@@ -977,7 +1044,14 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 					/* Map opacity level to alpha */
 					sakura.backalpha = (atol(value)*65535)/100;
 					vte_terminal_set_opacity(VTE_TERMINAL (term->vte), sakura.backalpha);
-					vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+					/*
+					 * Set the foreground and background color to NULL so
+					 * that they are picked up from the color palette
+					 *     -Kale Kundert
+					 */
+					//vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+					//                        sakura.palette, PALETTE_SIZE);
+					vte_terminal_set_colors(VTE_TERMINAL(term->vte), NULL, NULL,
 					                        sakura.palette, PALETTE_SIZE);
 					sakura_set_config_integer("backalpha", sakura.backalpha);
 					sakura.fake_transparency = TRUE;
@@ -1314,6 +1388,10 @@ sakura_set_palette(GtkWidget *widget, void *data)
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		if (strcmp(palette, "linux")==0) {
 			sakura.palette=linux_palette;
+		} else if (strcmp(palette, "solarized")==0) {
+			sakura.palette=solarized_palette;
+		} else if (strcmp(palette, "inverse_solarized")==0) {
+			sakura.palette=inverse_solarized_palette;
 		} else if (strcmp(palette, "tango")==0) {
 			sakura.palette=tango_palette;
 		} else if (strcmp(palette, "xterm")==0) {
@@ -1324,7 +1402,14 @@ sakura_set_palette(GtkWidget *widget, void *data)
 
 		for (i = (n_pages - 1); i >= 0; i--) {
 			term = sakura_get_page_term(sakura, i);
-			vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+			/*
+			 * Set the foreground and background color to NULL so
+			 * that they are picked up from the color palette
+			 *     -Kale Kundert
+			 */
+			//vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+			//                        sakura.palette, PALETTE_SIZE);
+			vte_terminal_set_colors(VTE_TERMINAL(term->vte), NULL, NULL,
 			                        sakura.palette, PALETTE_SIZE);
 		}
 
@@ -1713,6 +1798,10 @@ sakura_init()
 		sakura.palette=linux_palette;
 	} else if (strcmp(cfgtmp, "tango")==0) {
 		sakura.palette=tango_palette;
+	} else if (strcmp(cfgtmp, "solarized")==0) {
+		sakura.palette=solarized_palette;
+	} else if (strcmp(cfgtmp, "inverse_solarized")==0) {
+		sakura.palette=inverse_solarized_palette;
 	} else if (strcmp(cfgtmp, "xterm")==0) {
 		sakura.palette=xterm_palette;
 	} else {
@@ -1883,7 +1972,7 @@ sakura_init_popup()
 	          *item_toggle_scrollbar, *item_options, *item_input_methods,
 	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell,
 	          *item_blinking_cursor, *item_borderless_maximized,
-	          *item_palette, *item_palette_tango, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
+	          *item_palette, *item_palette_tango, *item_palette_solarized, *item_palette_inverse_solarized, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
 	          *item_show_close_button;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
                   *action_new_window,
@@ -1935,6 +2024,8 @@ sakura_init_popup()
 	item_borderless_maximized=gtk_check_menu_item_new_with_label(_("Borderless and maximized"));
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
 	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, "Tango");
+	item_palette_solarized=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Solarized");
+	item_palette_inverse_solarized=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Inverse Solarized");
 	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Linux");
 	item_palette_xterm=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "xterm");
 	item_palette_rxvt=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "rxvt");
@@ -1985,6 +2076,10 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_linux), TRUE);
 	} else if (strcmp(cfgtmp, "tango")==0) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_tango), TRUE);
+	} else if (strcmp(cfgtmp, "solarized")==0) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_solarized), TRUE);
+	} else if (strcmp(cfgtmp, "inverse_solarized")==0) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_inverse_solarized), TRUE);
 	} else if (strcmp(cfgtmp, "xterm")==0) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_xterm), TRUE);
 	} else {
@@ -2035,6 +2130,8 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_select_background);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_palette);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_tango);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_inverse_solarized);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_linux);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_xterm);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_rxvt);
@@ -2070,6 +2167,8 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_opacity_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_palette_tango), "activate", G_CALLBACK(sakura_set_palette), "tango");
+	g_signal_connect(G_OBJECT(item_palette_solarized), "activate", G_CALLBACK(sakura_set_palette), "solarized");
+	g_signal_connect(G_OBJECT(item_palette_inverse_solarized), "activate", G_CALLBACK(sakura_set_palette), "inverse_solarized");
 	g_signal_connect(G_OBJECT(item_palette_linux), "activate", G_CALLBACK(sakura_set_palette), "linux");
 	g_signal_connect(G_OBJECT(item_palette_xterm), "activate", G_CALLBACK(sakura_set_palette), "xterm");
 	g_signal_connect(G_OBJECT(item_palette_rxvt), "activate", G_CALLBACK(sakura_set_palette), "rxvt");
@@ -2106,8 +2205,22 @@ sakura_set_geometry_hints()
 	hints.min_height = char_height + pad_y;
 	hints.base_width = pad_x;
 	hints.base_height = pad_y;
-	hints.width_inc = char_width;
-	hints.height_inc = char_height;
+	hints.width_inc = 1; hints.height_inc = 1;
+        SAY("width & height increments: %d %d", hints.width_inc, hints.height_inc);
+
+        /* Disabling Resize Increments
+         * ===========================
+         * The window manager resizes sakura in increments because sakura has
+         * instructed it to, using window manager hints.  One way to disable
+         * this behavior is to simply set the width and height increments to 1.
+         *
+         * Note that in this version of sakura, the window manager hints are
+         * set in two different places.  Be sure to change hints everywhere
+         * they are set.
+         *
+         * -Kale Kundert
+         */
+
 	gtk_window_set_geometry_hints (GTK_WINDOW (sakura.main_window),
 	                               GTK_WIDGET (term->vte),
 	                               &hints,
@@ -2165,8 +2278,9 @@ sakura_set_size(gint columns, gint rows)
 	hints.min_height = char_height + pad_y;
 	hints.base_width = pad_x;
 	hints.base_height = pad_y;
-	hints.width_inc = char_width;
-	hints.height_inc = char_height;
+	hints.width_inc = 1;
+	hints.height_inc = 1;
+        
 	gtk_window_set_geometry_hints (GTK_WINDOW (sakura.main_window),
 	                               GTK_WIDGET (term->vte),
 	                               &hints,
@@ -2178,13 +2292,22 @@ sakura_set_size(gint columns, gint rows)
 	sakura.height = main_request.height - term_request.height;
 	sakura.width += pad_x + char_width * sakura.columns;
 	sakura.height += pad_y + char_height * sakura.rows;
+
+        /* I don't want sakura resizing itself based on the number of visible
+         * rows and columns, so I commented these lines out.
+         *
+         * -Kale Kundert
+         */
+
 	/* FIXME: Deprecated GTK_WIDGET_MAPPED. Replace it when gtk+-2.20 is widely used */
+        /*
 	if (GTK_WIDGET_MAPPED (sakura.main_window)) {
 		gtk_window_resize (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
 		SAY("Resizing to %ld columns %ld rows", sakura.columns, sakura.rows);
 	} else {
 		gtk_window_set_default_size (GTK_WINDOW (sakura.main_window), sakura.width, sakura.height);
 	}
+        */
 }
 
 
@@ -2392,7 +2515,14 @@ sakura_add_tab()
 		vte_terminal_set_opacity(VTE_TERMINAL (term->vte), sakura.backalpha);
 	}
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
-	vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+	/*
+	 * Set the foreground and background color to NULL so
+	 * that they are picked up from the color palette
+	 *     -Kale Kundert
+	 */
+	//vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
+	//                        sakura.palette, PALETTE_SIZE);
+	vte_terminal_set_colors(VTE_TERMINAL(term->vte), NULL, NULL,
 	                        sakura.palette, PALETTE_SIZE);
 
 	if (sakura.fake_transparency) {
