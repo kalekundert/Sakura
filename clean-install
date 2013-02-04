@@ -1,0 +1,16 @@
+#!/bin/csh -f
+#
+# This script makes a copy of Sakura from scratch and installs it into ~/.local
+
+
+# Clean out all files created by cmake previously
+if (-e Makefile) make clean
+foreach dir (. */)
+    rm -f $dir/CMakeCache.txt $dir/Makefile $dir/cmake_install.cmake
+end
+
+# Run cmake to create the Makefile
+cmake -DCMAKE_INSTALL_PREFIX=$HOME/.local .
+
+# Compile and install the program
+make install
