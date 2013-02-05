@@ -55,44 +55,57 @@
 
 #define PALETTE_SIZE 16
 
+/* Kale's Modifications */
+/* Do you want dialog box if you try to kill Sakura when processes are running. */
+#define WARN_ABOUT_RUNNING_PROCESSES 0
+/* If false, foreground and background colors to NULL so they are picked up
+ * from the color palette and cannot be changed from the UI. */
+#define USE_COLOR_SETTINGS 0
+#if USE_COLOR_SETTINGS
+#    define FORECOLOR &sakura.forecolor
+#    define BACKCOLOR &sakura.backcolor
+#else
+#    define FORECOLOR NULL
+#    define BACKCOLOR NULL
+#endif
+
+
 /*
- * Set this to false to avoid the obnoxious dialog box that pops up if you try
- * to kill a Sakura session when processes are running.
- *    -Kale Kundert
+ * Color palette
+ *
+ * Colors are given in the following order:
+ *   0 - black (used as the background color)
+ *   1 - red
+ *   2 - green
+ *   3 - yellow
+ *   4 - blue
+ *   5 - magenta
+ *   6 - cyan
+ *   7 - white (used as the foreground color)
+ *   8 - bright black
+ *   9 - bright red
+ *   10 - bright green
+ *   11 - bright yellow
+ *   12 - bright blue
+ *   13 - bright magenta
+ *   14 - bright cyan
+ *   15 - bright white
+ * Text displayed in the first 8 colors (0-7) is meek (uses thin strokes).
+ * Text displayed in the second 8 colors (8-15) is bold (uses thick strokes).
  */
-#define WARN_ABOUT_RUNNING_PROCESSES 1
 
-/* Color palettes. Color lists borrowed from gnome-terminal source (thanks! ;)) */
-const GdkColor tango_palette[PALETTE_SIZE] =
-{
-	{ 0, 0x2e2e, 0x3434, 0x3636 },
-	{ 0, 0xcccc, 0x0000, 0x0000 },
-	{ 0, 0x4e4e, 0x9a9a, 0x0606 },
-	{ 0, 0xc4c4, 0xa0a0, 0x0000 },
-	{ 0, 0x3434, 0x6565, 0xa4a4 },
-	{ 0, 0x7575, 0x5050, 0x7b7b },
-	{ 0, 0x0606, 0x9820, 0x9a9a },
-	{ 0, 0xd3d3, 0xd7d7, 0xcfcf },
-	{ 0, 0x5555, 0x5757, 0x5353 },
-	{ 0, 0xefef, 0x2929, 0x2929 },
-	{ 0, 0x8a8a, 0xe2e2, 0x3434 },
-	{ 0, 0xfcfc, 0xe9e9, 0x4f4f },
-	{ 0, 0x7272, 0x9f9f, 0xcfcf },
-	{ 0, 0xadad, 0x7f7f, 0xa8a8 },
-	{ 0, 0x3434, 0xe2e2, 0xe2e2 },
-	{ 0, 0xeeee, 0xeeee, 0xecec }
-};
-
-const GdkColor solarized_palette[PALETTE_SIZE] =
-{
-    { 0, 0x0707, 0x3636, 0x4242 }, // 0  base02
+/*
+ * Color palettes
+ */
+const GdkColor solarized_palette[PALETTE_SIZE] = {
+    { 0, 0x0707, 0x3636, 0x4242 }, // 0  base02 (used as background color)
     { 0, 0xdcdc, 0x3232, 0x2f2f }, // 1  red
     { 0, 0x8585, 0x9999, 0x0000 }, // 2  green
     { 0, 0xb5b5, 0x8989, 0x0000 }, // 3  yellow
     { 0, 0x2626, 0x8b8b, 0xd2d2 }, // 4  blue
     { 0, 0xd3d3, 0x3636, 0x8282 }, // 5  magenta
     { 0, 0x2a2a, 0xa1a1, 0x9898 }, // 6  cyan
-    { 0, 0xeeee, 0xe8e8, 0xd5d5 }, // 7  base2
+    { 0, 0xeeee, 0xe8e8, 0xd5d5 }, // 7  base2 (used as foreground color)
     { 0, 0x0000, 0x2b2b, 0x3636 }, // 8  base03
     { 0, 0xcbcb, 0x4b4B, 0x1616 }, // 9  orange
     { 0, 0x5858, 0x6e6e, 0x7575 }, // 10 base01
@@ -103,16 +116,16 @@ const GdkColor solarized_palette[PALETTE_SIZE] =
     { 0, 0xfdfd, 0xf6f6, 0xe3e3 }  // 15 base3
 };
 
-const GdkColor inverse_solarized_palette[PALETTE_SIZE] =
-{
-    { 0, 0x0000, 0x2b2b, 0x3636 }, // 8  base03
+/* Same as above, except first 8 and second 8 colors are swapped. */
+const GdkColor inverse_solarized_palette[PALETTE_SIZE] = {
+    { 0, 0x0000, 0x2b2b, 0x3636 }, // 8  base03 (used as background color)
     { 0, 0xcbcb, 0x4b4B, 0x1616 }, // 9  orange
     { 0, 0x5858, 0x6e6e, 0x7575 }, // 10 base01
     { 0, 0x6565, 0x7b7b, 0x8383 }, // 11 base00
     { 0, 0x8383, 0x9494, 0x9696 }, // 12 base0
     { 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 violet
     { 0, 0x9393, 0xa1a1, 0xa1a1 }, // 14 base1
-    { 0, 0xfdfd, 0xf6f6, 0xe3e3 }, // 15 base3
+    { 0, 0xfdfd, 0xf6f6, 0xe3e3 }, // 15 base3 (used as foreground color)
     { 0, 0x0707, 0x3636, 0x4242 }, // 0  base02
     { 0, 0xdcdc, 0x3232, 0x2f2f }, // 1  red
     { 0, 0x8585, 0x9999, 0x0000 }, // 2  green
@@ -123,137 +136,153 @@ const GdkColor inverse_solarized_palette[PALETTE_SIZE] =
     { 0, 0xeeee, 0xe8e8, 0xd5d5 }  // 7  base2
 };
 
-const GdkColor linux_palette[PALETTE_SIZE] =
-{
-	{ 0, 0x0000, 0x0000, 0x0000 },
-	{ 0, 0xaaaa, 0x0000, 0x0000 },
-	{ 0, 0x0000, 0xaaaa, 0x0000 },
-	{ 0, 0xaaaa, 0x5555, 0x0000 },
-	{ 0, 0x0000, 0x0000, 0xaaaa },
-	{ 0, 0xaaaa, 0x0000, 0xaaaa },
-	{ 0, 0x0000, 0xaaaa, 0xaaaa },
-	{ 0, 0xaaaa, 0xaaaa, 0xaaaa },
-	{ 0, 0x5555, 0x5555, 0x5555 },
-	{ 0, 0xffff, 0x5555, 0x5555 },
-	{ 0, 0x5555, 0xffff, 0x5555 },
-	{ 0, 0xffff, 0xffff, 0x5555 },
-	{ 0, 0x5555, 0x5555, 0xffff },
-	{ 0, 0xffff, 0x5555, 0xffff },
-	{ 0, 0x5555, 0xffff, 0xffff },
-	{ 0, 0xffff, 0xffff, 0xffff }
+const GdkColor tango_palette[PALETTE_SIZE] = {
+    { 0, 0x2e2e, 0x3434, 0x3636 },
+    { 0, 0xcccc, 0x0000, 0x0000 },
+    { 0, 0x4e4e, 0x9a9a, 0x0606 },
+    { 0, 0xc4c4, 0xa0a0, 0x0000 },
+    { 0, 0x3434, 0x6565, 0xa4a4 },
+    { 0, 0x7575, 0x5050, 0x7b7b },
+    { 0, 0x0606, 0x9820, 0x9a9a },
+    { 0, 0xd3d3, 0xd7d7, 0xcfcf },
+    { 0, 0x5555, 0x5757, 0x5353 },
+    { 0, 0xefef, 0x2929, 0x2929 },
+    { 0, 0x8a8a, 0xe2e2, 0x3434 },
+    { 0, 0xfcfc, 0xe9e9, 0x4f4f },
+    { 0, 0x7272, 0x9f9f, 0xcfcf },
+    { 0, 0xadad, 0x7f7f, 0xa8a8 },
+    { 0, 0x3434, 0xe2e2, 0xe2e2 },
+    { 0, 0xeeee, 0xeeee, 0xecec }
 };
 
-const GdkColor xterm_palette[PALETTE_SIZE] =
-{
-	{0, 0x0000, 0x0000, 0x0000 },
-	{0, 0xcdcb, 0x0000, 0x0000 },
-	{0, 0x0000, 0xcdcb, 0x0000 },
-	{0, 0xcdcb, 0xcdcb, 0x0000 },
-	{0, 0x1e1a, 0x908f, 0xffff },
-	{0, 0xcdcb, 0x0000, 0xcdcb },
-	{0, 0x0000, 0xcdcb, 0xcdcb },
-	{0, 0xe5e2, 0xe5e2, 0xe5e2 },
-	{0, 0x4ccc, 0x4ccc, 0x4ccc },
-	{0, 0xffff, 0x0000, 0x0000 },
-	{0, 0x0000, 0xffff, 0x0000 },
-	{0, 0xffff, 0xffff, 0x0000 },
-	{0, 0x4645, 0x8281, 0xb4ae },
-	{0, 0xffff, 0x0000, 0xffff },
-	{0, 0x0000, 0xffff, 0xffff },
-	{0, 0xffff, 0xffff, 0xffff }
+const GdkColor linux_palette[PALETTE_SIZE] = {
+    { 0, 0x0000, 0x0000, 0x0000 },
+    { 0, 0xaaaa, 0x0000, 0x0000 },
+    { 0, 0x0000, 0xaaaa, 0x0000 },
+    { 0, 0xaaaa, 0x5555, 0x0000 },
+    { 0, 0x0000, 0x0000, 0xaaaa },
+    { 0, 0xaaaa, 0x0000, 0xaaaa },
+    { 0, 0x0000, 0xaaaa, 0xaaaa },
+    { 0, 0xaaaa, 0xaaaa, 0xaaaa },
+    { 0, 0x5555, 0x5555, 0x5555 },
+    { 0, 0xffff, 0x5555, 0x5555 },
+    { 0, 0x5555, 0xffff, 0x5555 },
+    { 0, 0xffff, 0xffff, 0x5555 },
+    { 0, 0x5555, 0x5555, 0xffff },
+    { 0, 0xffff, 0x5555, 0xffff },
+    { 0, 0x5555, 0xffff, 0xffff },
+    { 0, 0xffff, 0xffff, 0xffff }
 };
 
-const GdkColor rxvt_palette[PALETTE_SIZE] =
-{
-	{ 0, 0x0000, 0x0000, 0x0000 },
-	{ 0, 0xcdcd, 0x0000, 0x0000 },
-	{ 0, 0x0000, 0xcdcd, 0x0000 },
-	{ 0, 0xcdcd, 0xcdcd, 0x0000 },
-	{ 0, 0x0000, 0x0000, 0xcdcd },
-	{ 0, 0xcdcd, 0x0000, 0xcdcd },
-	{ 0, 0x0000, 0xcdcd, 0xcdcd },
-	{ 0, 0xfafa, 0xebeb, 0xd7d7 },
-	{ 0, 0x4040, 0x4040, 0x4040 },
-	{ 0, 0xffff, 0x0000, 0x0000 },
-	{ 0, 0x0000, 0xffff, 0x0000 },
-	{ 0, 0xffff, 0xffff, 0x0000 },
-	{ 0, 0x0000, 0x0000, 0xffff },
-	{ 0, 0xffff, 0x0000, 0xffff },
-	{ 0, 0x0000, 0xffff, 0xffff },
-	{ 0, 0xffff, 0xffff, 0xffff }
+const GdkColor xterm_palette[PALETTE_SIZE] = {
+    {0, 0x0000, 0x0000, 0x0000 },
+    {0, 0xcdcb, 0x0000, 0x0000 },
+    {0, 0x0000, 0xcdcb, 0x0000 },
+    {0, 0xcdcb, 0xcdcb, 0x0000 },
+    {0, 0x1e1a, 0x908f, 0xffff },
+    {0, 0xcdcb, 0x0000, 0xcdcb },
+    {0, 0x0000, 0xcdcb, 0xcdcb },
+    {0, 0xe5e2, 0xe5e2, 0xe5e2 },
+    {0, 0x4ccc, 0x4ccc, 0x4ccc },
+    {0, 0xffff, 0x0000, 0x0000 },
+    {0, 0x0000, 0xffff, 0x0000 },
+    {0, 0xffff, 0xffff, 0x0000 },
+    {0, 0x4645, 0x8281, 0xb4ae },
+    {0, 0xffff, 0x0000, 0xffff },
+    {0, 0x0000, 0xffff, 0xffff },
+    {0, 0xffff, 0xffff, 0xffff }
+};
+
+const GdkColor rxvt_palette[PALETTE_SIZE] = {
+    { 0, 0x0000, 0x0000, 0x0000 },
+    { 0, 0xcdcd, 0x0000, 0x0000 },
+    { 0, 0x0000, 0xcdcd, 0x0000 },
+    { 0, 0xcdcd, 0xcdcd, 0x0000 },
+    { 0, 0x0000, 0x0000, 0xcdcd },
+    { 0, 0xcdcd, 0x0000, 0xcdcd },
+    { 0, 0x0000, 0xcdcd, 0xcdcd },
+    { 0, 0xfafa, 0xebeb, 0xd7d7 },
+    { 0, 0x4040, 0x4040, 0x4040 },
+    { 0, 0xffff, 0x0000, 0x0000 },
+    { 0, 0x0000, 0xffff, 0x0000 },
+    { 0, 0xffff, 0xffff, 0x0000 },
+    { 0, 0x0000, 0x0000, 0xffff },
+    { 0, 0xffff, 0x0000, 0xffff },
+    { 0, 0x0000, 0xffff, 0xffff },
+    { 0, 0xffff, 0xffff, 0xffff }
 };
 
 static struct {
-	GtkWidget *main_window;
-	GtkWidget *notebook;
-	GtkWidget *menu;
-	GtkWidget *im_menu;
-	//GtkWidget *labels_menu;
-	PangoFontDescription *font;
-	GdkColor forecolor;
-	GdkColor backcolor;
-	guint16 backalpha;
-	bool has_rgba;
-	char *current_match;
-	guint width;
-	guint height;
-	glong columns;
-	glong rows;
-	gint char_width;
-	gint char_height;
-	gint label_count;
-	bool fake_transparency;
-	float opacity_level;
-	char *opacity_level_percent;
-	bool *opacity;
-	bool first_tab;
-	bool show_scrollbar;
-	bool show_closebutton;
-	bool audible_bell;
-	bool visible_bell;
-	bool blinking_cursor;
-	bool borderless;
-	bool maximized;
-	bool full_screen;
-	bool keep_fc;				/* Global flag to indicate that we don't want changes in the files and columns values */
-	bool config_modified;		/* Configuration has been modified */
-	bool externally_modified;	/* Configuration file has been modified by another proccess */
-	GtkWidget *item_clear_background; /* We include here only the items which need to be hided */
-	GtkWidget *item_copy_link;
-	GtkWidget *item_open_link;
-	GtkWidget *open_link_separator;
-	GKeyFile *cfg;
-	char *configfile;
-	char *background;
-	char *word_chars;
-	const GdkColor *palette;
-	gint add_tab_accelerator;
-	gint del_tab_accelerator;
-	gint switch_tab_accelerator;
-	gint copy_accelerator;
-	gint scrollbar_accelerator;
-	gint open_url_accelerator;
-	gint add_tab_key;
-	gint del_tab_key;
-	gint prev_tab_key;
-	gint next_tab_key;
-	gint new_window_key;
-	gint copy_key;
-	gint paste_key;
-	gint scrollbar_key;
-	gint fullscreen_key;
-	GRegex *http_regexp;
-	char *argv[2];
+    GtkWidget *main_window;
+    GtkWidget *notebook;
+    GtkWidget *menu;
+    GtkWidget *im_menu;
+    //GtkWidget *labels_menu;
+    PangoFontDescription *font;
+    GdkColor forecolor;
+    GdkColor backcolor;
+    guint16 backalpha;
+    bool has_rgba;
+    char *current_match;
+    guint width;
+    guint height;
+    glong columns;
+    glong rows;
+    gint char_width;
+    gint char_height;
+    gint label_count;
+    bool fake_transparency;
+    float opacity_level;
+    char *opacity_level_percent;
+    bool *opacity;
+    bool first_tab;
+    bool show_scrollbar;
+    bool show_closebutton;
+    bool audible_bell;
+    bool visible_bell;
+    bool blinking_cursor;
+    bool borderless;
+    bool maximized;
+    bool full_screen;
+    bool keep_fc;		/* Global flag to indicate that we don't want changes in the files and columns values */
+    bool config_modified;	/* Configuration has been modified */
+    bool externally_modified;	/* Configuration file has been modified by another proccess */
+    GtkWidget *item_clear_background; /* We include here only the items which need to be hided */
+    GtkWidget *item_copy_link;
+    GtkWidget *item_open_link;
+    GtkWidget *open_link_separator;
+    GKeyFile *cfg;
+    char *configfile;
+    char *background;
+    char *word_chars;
+    const GdkColor *palette;
+    gint add_tab_accelerator;
+    gint del_tab_accelerator;
+    gint switch_tab_accelerator;
+    gint copy_accelerator;
+    gint scrollbar_accelerator;
+    gint open_url_accelerator;
+    gint add_tab_key;
+    gint del_tab_key;
+    gint prev_tab_key;
+    gint next_tab_key;
+    gint new_window_key;
+    gint copy_key;
+    gint paste_key;
+    gint scrollbar_key;
+    gint fullscreen_key;
+    GRegex *http_regexp;
+    char *argv[2];
 } sakura;
 
 struct terminal {
-	GtkWidget *hbox;
-	GtkWidget *vte;     /* Reference to VTE terminal */
-	GPid pid;          /* pid of the forked proccess */
-	GtkWidget *scrollbar;
-	GtkWidget *label;
-	gchar *label_text;
-	GtkBorder border;   /* inner-property data */
+    GtkWidget *hbox;
+    GtkWidget *vte;     /* Reference to VTE terminal */
+    GPid pid;           /* pid of the forked proccess */
+    GtkWidget *scrollbar;
+    GtkWidget *label;
+    gchar *label_text;
+    GtkBorder border;   /* inner-property data */
 };
 
 
@@ -265,7 +294,7 @@ struct terminal {
 #define DEFAULT_ROWS 24
 #define DEFAULT_FONT "monospace 11"
 #define DEFAULT_WORD_CHARS  "-A-Za-z0-9,./?%&#_~"
-#define DEFAULT_PALETTE "solarized"
+#define DEFAULT_PALETTE "inverse_solarized"
 #define DEFAULT_ADD_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
@@ -337,9 +366,9 @@ static void     sakura_copy(GtkWidget *, void *);
 static void     sakura_paste(GtkWidget *, void *);
 static void     sakura_show_first_tab (GtkWidget *widget, void *data);
 static void     sakura_show_close_button (GtkWidget *widget, void *data);
-static void		sakura_show_scrollbar(GtkWidget *, void *);
+static void     sakura_show_scrollbar(GtkWidget *, void *);
 static void     sakura_closebutton_clicked(GtkWidget *, void *);
-static void		sakura_conf_changed(GtkWidget *, void *);
+static void     sakura_conf_changed(GtkWidget *, void *);
 
 /* Misc */
 static void     sakura_error(const char *, ...);
@@ -357,7 +386,7 @@ static void     sakura_kill_child();
 static void     sakura_set_bgimage();
 static void     sakura_set_config_key(const gchar *, guint);
 static guint    sakura_get_config_key(const gchar *);
-static void		sakura_config_done();
+static void     sakura_config_done();
 
 static const char *option_font;
 static const char *option_execute;
@@ -372,17 +401,17 @@ static gboolean option_hold=FALSE;
 static const char *option_geometry;
 
 static GOptionEntry entries[] = {
-	{ "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
-	{ "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
-	{ "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
-	{ "execute", 'x', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
-	{ "xterm-execute", 'e', 0, G_OPTION_ARG_NONE, &option_xterm_execute, N_("Execute command (xterm compatible)"), NULL },
-	{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &option_xterm_args, NULL, NULL },
-	{ "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
-	{ "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
-	{ "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
-	{ "rows", 'r', 0, G_OPTION_ARG_INT, &option_rows, N_("Set rows number"), NULL },
-	{ "hold", 'h', 0, G_OPTION_ARG_NONE, &option_hold, N_("Hold window after execute command"), NULL },
+    { "version", 'v', 0, G_OPTION_ARG_NONE, &option_version, N_("Print version number"), NULL },
+    { "font", 'f', 0, G_OPTION_ARG_STRING, &option_font, N_("Select initial terminal font"), NULL },
+    { "ntabs", 'n', 0, G_OPTION_ARG_INT, &option_ntabs, N_("Select initial number of tabs"), NULL },
+    { "execute", 'x', 0, G_OPTION_ARG_STRING, &option_execute, N_("Execute command"), NULL },
+    { "xterm-execute", 'e', 0, G_OPTION_ARG_NONE, &option_xterm_execute, N_("Execute command (xterm compatible)"), NULL },
+    { G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &option_xterm_args, NULL, NULL },
+    { "login", 'l', 0, G_OPTION_ARG_NONE, &option_login, N_("Login shell"), NULL },
+    { "title", 't', 0, G_OPTION_ARG_STRING, &option_title, N_("Set window title"), NULL },
+    { "columns", 'c', 0, G_OPTION_ARG_INT, &option_columns, N_("Set columns number"), NULL },
+    { "rows", 'r', 0, G_OPTION_ARG_INT, &option_rows, N_("Set rows number"), NULL },
+    { "hold", 'h', 0, G_OPTION_ARG_NONE, &option_hold, N_("Hold window after execute command"), NULL },
     { "geometry", 0, 0, G_OPTION_ARG_STRING, &option_geometry, N_("X geometry specification"), NULL },
     { NULL }
 };
@@ -399,17 +428,17 @@ gboolean sakura_key_press (GtkWidget *widget, GdkEventKey *event, gpointer user_
 
 	/* add_tab_accelerator + T or del_tab_accelerator + W pressed */
 	if ( (event->state & sakura.add_tab_accelerator)==sakura.add_tab_accelerator &&
-         event->keyval==sakura.add_tab_key ) {
-		sakura_add_tab();
-        return TRUE;
-    } else if ( (event->state & sakura.del_tab_accelerator)==sakura.del_tab_accelerator &&
+	     event->keyval==sakura.add_tab_key ) {
+	    sakura_add_tab();
+	    return TRUE;
+	} else if ( (event->state & sakura.del_tab_accelerator)==sakura.del_tab_accelerator &&
                 event->keyval==sakura.del_tab_key ) {
-        sakura_kill_child();
-		/* Delete current tab */
-        sakura_del_tab(page);
-        if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
-            sakura_destroy();
-        return TRUE;
+	    sakura_kill_child();
+		    /* Delete current tab */
+	    sakura_del_tab(page);
+	    if (gtk_notebook_get_n_pages(GTK_NOTEBOOK(sakura.notebook))==0)
+		sakura_destroy();
+	    return TRUE;
 	}
 
 	/* switch_tab_accelerator + number pressed / switch_tab_accelerator + Left-Right cursor */
@@ -925,15 +954,8 @@ sakura_color_dialog (GtkWidget *widget, void *data)
 				vte_terminal_set_color_background(VTE_TERMINAL (term->vte), &sakura.forecolor);
 				vte_terminal_set_opacity(VTE_TERMINAL (term->vte), sakura.backalpha);
 			}
-			/*
-			 * Set the foreground and background color to NULL so
-			 * that they are picked up from the color palette
-			 *     -Kale Kundert
-			 */
-			//vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
-			//                        sakura.palette, PALETTE_SIZE);
-			vte_terminal_set_colors(VTE_TERMINAL(term->vte), NULL, NULL,
-			                        sakura.palette, PALETTE_SIZE);
+			vte_terminal_set_colors(VTE_TERMINAL(term->vte), FORECOLOR, BACKCOLOR,
+						sakura.palette, PALETTE_SIZE);
 		}
 
 		gchar *cfgtmp;
@@ -1044,15 +1066,8 @@ sakura_opacity_dialog (GtkWidget *widget, void *data)
 					/* Map opacity level to alpha */
 					sakura.backalpha = (atol(value)*65535)/100;
 					vte_terminal_set_opacity(VTE_TERMINAL (term->vte), sakura.backalpha);
-					/*
-					 * Set the foreground and background color to NULL so
-					 * that they are picked up from the color palette
-					 *     -Kale Kundert
-					 */
-					//vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
-					//                        sakura.palette, PALETTE_SIZE);
-					vte_terminal_set_colors(VTE_TERMINAL(term->vte), NULL, NULL,
-					                        sakura.palette, PALETTE_SIZE);
+					vte_terminal_set_colors(VTE_TERMINAL(term->vte), FORECOLOR, BACKCOLOR,
+								sakura.palette, PALETTE_SIZE);
 					sakura_set_config_integer("backalpha", sakura.backalpha);
 					sakura.fake_transparency = TRUE;
 				} else {
@@ -1402,15 +1417,8 @@ sakura_set_palette(GtkWidget *widget, void *data)
 
 		for (i = (n_pages - 1); i >= 0; i--) {
 			term = sakura_get_page_term(sakura, i);
-			/*
-			 * Set the foreground and background color to NULL so
-			 * that they are picked up from the color palette
-			 *     -Kale Kundert
-			 */
-			//vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
-			//                        sakura.palette, PALETTE_SIZE);
-			vte_terminal_set_colors(VTE_TERMINAL(term->vte), NULL, NULL,
-			                        sakura.palette, PALETTE_SIZE);
+			vte_terminal_set_colors(VTE_TERMINAL(term->vte), FORECOLOR, BACKCOLOR,
+						sakura.palette, PALETTE_SIZE);
 		}
 
 		sakura_set_config_string("palette", palette);
@@ -2515,15 +2523,8 @@ sakura_add_tab()
 		vte_terminal_set_opacity(VTE_TERMINAL (term->vte), sakura.backalpha);
 	}
 	vte_terminal_set_backspace_binding(VTE_TERMINAL(term->vte), VTE_ERASE_ASCII_DELETE);
-	/*
-	 * Set the foreground and background color to NULL so
-	 * that they are picked up from the color palette
-	 *     -Kale Kundert
-	 */
-	//vte_terminal_set_colors(VTE_TERMINAL(term->vte), &sakura.forecolor, &sakura.backcolor,
-	//                        sakura.palette, PALETTE_SIZE);
-	vte_terminal_set_colors(VTE_TERMINAL(term->vte), NULL, NULL,
-	                        sakura.palette, PALETTE_SIZE);
+	vte_terminal_set_colors(VTE_TERMINAL(term->vte), FORECOLOR, BACKCOLOR,
+				sakura.palette, PALETTE_SIZE);
 
 	if (sakura.fake_transparency) {
 		vte_terminal_set_background_saturation(VTE_TERMINAL (term->vte), sakura.opacity_level);
