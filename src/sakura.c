@@ -97,43 +97,42 @@
 /*
  * Color palettes
  */
-const GdkColor solarized_palette[PALETTE_SIZE] = {
-    { 0, 0x0707, 0x3636, 0x4242 }, // 0  base02 (used as background color)
-    { 0, 0xdcdc, 0x3232, 0x2f2f }, // 1  red
-    { 0, 0x8585, 0x9999, 0x0000 }, // 2  green
-    { 0, 0xb5b5, 0x8989, 0x0000 }, // 3  yellow
-    { 0, 0x2626, 0x8b8b, 0xd2d2 }, // 4  blue
-    { 0, 0xd3d3, 0x3636, 0x8282 }, // 5  magenta
-    { 0, 0x2a2a, 0xa1a1, 0x9898 }, // 6  cyan
-    { 0, 0xeeee, 0xe8e8, 0xd5d5 }, // 7  base2 (used as foreground color)
-    { 0, 0x0000, 0x2b2b, 0x3636 }, // 8  base03
-    { 0, 0xcbcb, 0x4b4B, 0x1616 }, // 9  orange
-    { 0, 0x5858, 0x6e6e, 0x7575 }, // 10 base01
-    { 0, 0x6565, 0x7b7b, 0x8383 }, // 11 base00
-    { 0, 0x8383, 0x9494, 0x9696 }, // 12 base0
-    { 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 violet
-    { 0, 0x9393, 0xa1a1, 0xa1a1 }, // 14 base1
-    { 0, 0xfdfd, 0xf6f6, 0xe3e3 }  // 15 base3
+const GdkColor solarized_dark_palette[PALETTE_SIZE] = {
+    { 0, 0x0000, 0x2b2b, 0x3636 }, // base03 (used as background color)
+    { 0, 0xdcdc, 0x3232, 0x2f2f }, // red
+    { 0, 0x8585, 0x9999, 0x0000 }, // green
+    { 0, 0xb5b5, 0x8989, 0x0000 }, // yellow
+    { 0, 0x2626, 0x8b8b, 0xd2d2 }, // blue
+    { 0, 0xd3d3, 0x3636, 0x8282 }, // magenta
+    { 0, 0x2a2a, 0xa1a1, 0x9898 }, // cyan
+    { 0, 0x8383, 0x9494, 0x9696 }, // base0 (used as foreground color)
+    { 0, 0x0707, 0x3636, 0x4242 }, // base02
+    { 0, 0xdcdc, 0x3232, 0x2f2f }, // red
+    { 0, 0x8585, 0x9999, 0x0000 }, // green
+    { 0, 0xb5b5, 0x8989, 0x0000 }, // yellow
+    { 0, 0x2626, 0x8b8b, 0xd2d2 }, // blue
+    { 0, 0xd3d3, 0x3636, 0x8282 }, // magenta
+    { 0, 0x2a2a, 0xa1a1, 0x9898 }, // cyan
+    { 0, 0x9393, 0xa1a1, 0xa1a1 }, // base1
 };
 
-/* Same as above, except first 8 and second 8 colors are swapped. */
-const GdkColor inverse_solarized_palette[PALETTE_SIZE] = {
-    { 0, 0x0000, 0x2b2b, 0x3636 }, // 8  base03 (used as background color)
-    { 0, 0xcbcb, 0x4b4B, 0x1616 }, // 9  orange
-    { 0, 0x5858, 0x6e6e, 0x7575 }, // 10 base01
-    { 0, 0x6565, 0x7b7b, 0x8383 }, // 11 base00
-    { 0, 0x8383, 0x9494, 0x9696 }, // 12 base0
-    { 0, 0x6c6c, 0x7171, 0xc4c4 }, // 13 violet
-    { 0, 0x9393, 0xa1a1, 0xa1a1 }, // 14 base1
-    { 0, 0xfdfd, 0xf6f6, 0xe3e3 }, // 15 base3 (used as foreground color)
-    { 0, 0x0707, 0x3636, 0x4242 }, // 0  base02
-    { 0, 0xdcdc, 0x3232, 0x2f2f }, // 1  red
-    { 0, 0x8585, 0x9999, 0x0000 }, // 2  green
-    { 0, 0xb5b5, 0x8989, 0x0000 }, // 3  yellow
-    { 0, 0x2626, 0x8b8b, 0xd2d2 }, // 4  blue
-    { 0, 0xd3d3, 0x3636, 0x8282 }, // 5  magenta
-    { 0, 0x2a2a, 0xa1a1, 0x9898 }, // 6  cyan
-    { 0, 0xeeee, 0xe8e8, 0xd5d5 }  // 7  base2
+const GdkColor solarized_light_palette[PALETTE_SIZE] = {
+    { 0, 0xfdfd, 0xf6f6, 0xe3e3 }, // base3 (used as background color)
+    { 0, 0xdcdc, 0x3232, 0x2f2f }, // red
+    { 0, 0x8585, 0x9999, 0x0000 }, // green
+    { 0, 0xb5b5, 0x8989, 0x0000 }, // yellow
+    { 0, 0x2626, 0x8b8b, 0xd2d2 }, // blue
+    { 0, 0xd3d3, 0x3636, 0x8282 }, // magenta
+    { 0, 0x2a2a, 0xa1a1, 0x9898 }, // cyan
+    { 0, 0x6565, 0x7b7b, 0x8383 }, // base00 (used as foreground color)
+    { 0, 0xeeee, 0xe8e8, 0xd5d5 }, // base2
+    { 0, 0xdcdc, 0x3232, 0x2f2f }, // red
+    { 0, 0x8585, 0x9999, 0x0000 }, // green
+    { 0, 0xb5b5, 0x8989, 0x0000 }, // yellow
+    { 0, 0x2626, 0x8b8b, 0xd2d2 }, // blue
+    { 0, 0xd3d3, 0x3636, 0x8282 }, // magenta
+    { 0, 0x2a2a, 0xa1a1, 0x9898 }, // cyan
+    { 0, 0x5858, 0x6e6e, 0x7575 }, // base01
 };
 
 const GdkColor tango_palette[PALETTE_SIZE] = {
@@ -294,7 +293,7 @@ struct terminal {
 #define DEFAULT_ROWS 24
 #define DEFAULT_FONT "monospace 11"
 #define DEFAULT_WORD_CHARS  "-A-Za-z0-9,./?%&#_~"
-#define DEFAULT_PALETTE "inverse_solarized"
+#define DEFAULT_PALETTE "solarized_dark"
 #define DEFAULT_ADD_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_DEL_TAB_ACCELERATOR  (GDK_CONTROL_MASK|GDK_SHIFT_MASK)
 #define DEFAULT_SWITCH_TAB_ACCELERATOR  (GDK_MOD1_MASK)
@@ -1403,10 +1402,10 @@ sakura_set_palette(GtkWidget *widget, void *data)
 	if (gtk_check_menu_item_get_active(GTK_CHECK_MENU_ITEM(widget))) {
 		if (strcmp(palette, "linux")==0) {
 			sakura.palette=linux_palette;
-		} else if (strcmp(palette, "solarized")==0) {
-			sakura.palette=solarized_palette;
-		} else if (strcmp(palette, "inverse_solarized")==0) {
-			sakura.palette=inverse_solarized_palette;
+		} else if (strcmp(palette, "solarized_dark")==0) {
+			sakura.palette=solarized_dark_palette;
+		} else if (strcmp(palette, "solarized_light")==0) {
+			sakura.palette=solarized_light_palette;
 		} else if (strcmp(palette, "tango")==0) {
 			sakura.palette=tango_palette;
 		} else if (strcmp(palette, "xterm")==0) {
@@ -1806,10 +1805,10 @@ sakura_init()
 		sakura.palette=linux_palette;
 	} else if (strcmp(cfgtmp, "tango")==0) {
 		sakura.palette=tango_palette;
-	} else if (strcmp(cfgtmp, "solarized")==0) {
-		sakura.palette=solarized_palette;
-	} else if (strcmp(cfgtmp, "inverse_solarized")==0) {
-		sakura.palette=inverse_solarized_palette;
+	} else if (strcmp(cfgtmp, "solarized_dark")==0) {
+		sakura.palette=solarized_dark_palette;
+	} else if (strcmp(cfgtmp, "solarized_light")==0) {
+		sakura.palette=solarized_light_palette;
 	} else if (strcmp(cfgtmp, "xterm")==0) {
 		sakura.palette=xterm_palette;
 	} else {
@@ -1980,7 +1979,7 @@ sakura_init_popup()
 	          *item_toggle_scrollbar, *item_options, *item_input_methods,
 	          *item_opacity_menu, *item_show_first_tab, *item_audible_bell, *item_visible_bell,
 	          *item_blinking_cursor, *item_borderless_maximized,
-	          *item_palette, *item_palette_tango, *item_palette_solarized, *item_palette_inverse_solarized, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
+	          *item_palette, *item_palette_tango, *item_palette_solarized_dark, *item_palette_solarized_light, *item_palette_linux, *item_palette_xterm, *item_palette_rxvt,
 	          *item_show_close_button;
 	GtkAction *action_open_link, *action_copy_link, *action_new_tab, *action_set_name, *action_close_tab,
                   *action_new_window,
@@ -2032,8 +2031,8 @@ sakura_init_popup()
 	item_borderless_maximized=gtk_check_menu_item_new_with_label(_("Borderless and maximized"));
 	item_input_methods=gtk_menu_item_new_with_label(_("Input methods"));
 	item_palette_tango=gtk_radio_menu_item_new_with_label(NULL, "Tango");
-	item_palette_solarized=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Solarized");
-	item_palette_inverse_solarized=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Inverse Solarized");
+	item_palette_solarized_dark=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Solarized (Dark)");
+	item_palette_solarized_light=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Solarized (Light)");
 	item_palette_linux=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "Linux");
 	item_palette_xterm=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "xterm");
 	item_palette_rxvt=gtk_radio_menu_item_new_with_label_from_widget(GTK_RADIO_MENU_ITEM(item_palette_tango), "rxvt");
@@ -2084,10 +2083,10 @@ sakura_init_popup()
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_linux), TRUE);
 	} else if (strcmp(cfgtmp, "tango")==0) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_tango), TRUE);
-	} else if (strcmp(cfgtmp, "solarized")==0) {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_solarized), TRUE);
-	} else if (strcmp(cfgtmp, "inverse_solarized")==0) {
-		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_inverse_solarized), TRUE);
+	} else if (strcmp(cfgtmp, "solarized_dark")==0) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_solarized_dark), TRUE);
+	} else if (strcmp(cfgtmp, "solarized_light")==0) {
+		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_solarized_light), TRUE);
 	} else if (strcmp(cfgtmp, "xterm")==0) {
 		gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(item_palette_xterm), TRUE);
 	} else {
@@ -2138,8 +2137,8 @@ sakura_init_popup()
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_select_background);
 	gtk_menu_shell_append(GTK_MENU_SHELL(options_menu), item_palette);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_tango);
-	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized);
-	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_inverse_solarized);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized_dark);
+	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_solarized_light);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_linux);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_xterm);
 	gtk_menu_shell_append(GTK_MENU_SHELL(palette_menu), item_palette_rxvt);
@@ -2175,8 +2174,8 @@ sakura_init_popup()
 	g_signal_connect(G_OBJECT(action_opacity), "activate", G_CALLBACK(sakura_opacity_dialog), NULL);
 	g_signal_connect(G_OBJECT(action_set_title), "activate", G_CALLBACK(sakura_set_title_dialog), NULL);
 	g_signal_connect(G_OBJECT(item_palette_tango), "activate", G_CALLBACK(sakura_set_palette), "tango");
-	g_signal_connect(G_OBJECT(item_palette_solarized), "activate", G_CALLBACK(sakura_set_palette), "solarized");
-	g_signal_connect(G_OBJECT(item_palette_inverse_solarized), "activate", G_CALLBACK(sakura_set_palette), "inverse_solarized");
+	g_signal_connect(G_OBJECT(item_palette_solarized_dark), "activate", G_CALLBACK(sakura_set_palette), "solarized_dark");
+	g_signal_connect(G_OBJECT(item_palette_solarized_light), "activate", G_CALLBACK(sakura_set_palette), "solarized_light");
 	g_signal_connect(G_OBJECT(item_palette_linux), "activate", G_CALLBACK(sakura_set_palette), "linux");
 	g_signal_connect(G_OBJECT(item_palette_xterm), "activate", G_CALLBACK(sakura_set_palette), "xterm");
 	g_signal_connect(G_OBJECT(item_palette_rxvt), "activate", G_CALLBACK(sakura_set_palette), "rxvt");
